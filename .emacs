@@ -7,12 +7,12 @@
 (require 'package)
 
 (setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                         ("melpa" . "http://melpa.org/packages/")
+                         ("melpa" . "http://stable.melpa.org/packages/")
                          ("org" . "https://orgmode.org/elpa/")))
 
 (global-font-lock-mode 1)
 
-(add-to-list 'load-path "~/.emacs.d/lisp/")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/lisp/"))
 (setq backup-directory-alist
       `(("." . ,(concat user-emacs-directory "backups"))))
 
@@ -131,13 +131,22 @@
  ;; If there is more than one, they won't work right.
  '(org-agenda-files
    (quote
-    ("~/org/inbox.org" "~/org/home.org" "~/org/someday.org" "~/org/tickler.org" "~/org/index.org" "~/org/gtd.org")))
+    ("~/org/inbox.org" "~/org/home.org" "~/org/someday.org" "~/org/tickler.org" "~/org/gtd.org")))
  '(package-selected-packages
    (quote
-    (magit twittering-mode yaml-mode markdown-mode expand-region python-mode go-mode auto-complete ## auto-correct))))
+    (flycheck flycheck-ocaml flycheck-pycheckers flycheck-yamllint flymake-jslint flymake-python-pyflakes flymake-ruby haskell-mode typescript-mode go-guru go-tag magit twittering-mode yaml-mode markdown-mode expand-region python-mode go-mode auto-complete ## auto-correct))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(prettify-symbols-mode)
+(flyspell-mode)
+(add-hook 'org-mode-hook (lambda ()
+			   "Beautify Org Checkbox Symbol"
+			   (push '("[ ]" .  "☐") prettify-symbols-alist)
+			   (push '("[X]" . "☑" ) prettify-symbols-alist)
+			   (push '("[-]" . "❍" ) prettify-symbols-alist)
+			      (prettify-symbols-mode)))
